@@ -2,6 +2,7 @@ package com.example.MyShoppingApp.service;
 
 import com.example.MyShoppingApp.dto.CategoryDTO;
 import com.example.MyShoppingApp.entity.Category;
+import com.example.MyShoppingApp.exception.ResourceNotFoundException;
 import com.example.MyShoppingApp.mapper.CategoryMapper;
 import com.example.MyShoppingApp.repository.CategoryRepository;
 import com.example.MyShoppingApp.repository.ProductRepository;
@@ -26,7 +27,7 @@ public class CategoryService {
     //update
     public Category update(Category category,String id)
     {
-        Category currentCategory = categoryRepository.findById(id).orElseThrow();
+        Category currentCategory = categoryRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("category id not found"));
         currentCategory.setName(category.getName());
         return categoryRepository.save(currentCategory);
 
@@ -36,7 +37,7 @@ public class CategoryService {
     //delete
     public void delete(String id)
     {
-        Category currentCategory = categoryRepository.findById(id).orElseThrow();
+        Category currentCategory = categoryRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("category id not found"));
         categoryRepository.delete(currentCategory);
     }
 
@@ -50,6 +51,6 @@ public class CategoryService {
     //get by id
     public Category getById(String id)
     {
-        return categoryRepository.findById(id).orElseThrow();
+        return categoryRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("category id not found"));
     }
 }

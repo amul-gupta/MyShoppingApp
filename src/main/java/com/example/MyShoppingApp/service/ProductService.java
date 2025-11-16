@@ -2,6 +2,7 @@ package com.example.MyShoppingApp.service;
 
 import com.example.MyShoppingApp.entity.Category;
 import com.example.MyShoppingApp.entity.Product;
+import com.example.MyShoppingApp.exception.ResourceNotFoundException;
 import com.example.MyShoppingApp.repository.CategoryRepository;
 import com.example.MyShoppingApp.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class ProductService {
     //update
     public Product update(Product product, String id)
     {
-        Product currentProduct = productRepository.findById(id).orElseThrow();
+        Product currentProduct = productRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("product id not found"));
         currentProduct.setName(product.getName());
         currentProduct.setDescription(product.getDescription());
         currentProduct.setPrice(product.getPrice());
@@ -43,7 +44,7 @@ public class ProductService {
     //delete
     public void delete(String id)
     {
-        Product currentProduct = productRepository.findById(id).orElseThrow();
+        Product currentProduct = productRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("product id not found"));
          productRepository.delete(currentProduct);
     }
 
@@ -57,7 +58,7 @@ public class ProductService {
     //get by id
     public Product getById(String id)
     {
-        return productRepository.findById(id).orElseThrow();
+        return productRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("product id not found"));
     }
 
 }
